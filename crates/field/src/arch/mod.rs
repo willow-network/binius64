@@ -28,8 +28,11 @@ cfg_if! {
 		pub use wasm32::{packed_ghash_128, packed_ghash_256};
 		pub use portable::{packed_128::{self, M128}, packed_256::{self, M256}, packed_512, packed_aes_128, packed_aes_256, packed_aes_512, packed_ghash_512};
 	} else {
+		// Portable fallback (covers wasm64/memory64, which is neither
+		// target_arch="wasm32" nor a native arch). `portable::packed_128::M128`
+		// is `u128`; the extra `pub use u128 as M128` here was a duplicate that
+		// breaks the build on wasm64 (E0252). Willow wasm64 verifier fix.
 		mod portable;
-		pub use u128 as M128;
 		pub use portable::{packed_128::{self, M128}, packed_256::{self, M256}, packed_512, packed_aes_128, packed_aes_256, packed_aes_512, packed_ghash_128, packed_ghash_256, packed_ghash_512};
 	}
 }
