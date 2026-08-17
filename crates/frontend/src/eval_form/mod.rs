@@ -153,4 +153,9 @@ impl EvalForm {
 	pub const fn n_eval_insn(&self) -> usize {
 		self.n_eval_insn
 	}
+
+	/// The compiled evaluation bytecode, as emitted by [`BytecodeBuilder`].
+	pub(crate) const fn bytecode(&self) -> &[u8] {
+		self.bytecode.as_slice()
+	}
 }

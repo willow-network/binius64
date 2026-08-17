@@ -260,6 +260,15 @@ impl Circuit {
 		self.eval_form.n_eval_insn()
 	}
 
+	/// Returns the compiled evaluation bytecode that fills this circuit's witness.
+	///
+	/// Registers in the bytecode are flat value-vector rows, i.e. [`Self::witness_row`] of the
+	/// wire they hold. Downstream provers that synthesize witnesses without re-running the
+	/// frontend replay this program per gadget instance.
+	pub const fn eval_bytecode(&self) -> &[u8] {
+		self.eval_form.bytecode()
+	}
+
 	/// Returns a string with a JSON dump that is useful to profile the circuit.
 	pub fn simple_json_dump(&self) -> String {
 		dump_composition(&self.path_spec_tree, &self.gate_records)
